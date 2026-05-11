@@ -126,6 +126,45 @@
     .groups-table{font-size:0.75rem}
     .groups-table th,.groups-table td{padding:0.45rem 0.35rem}
   }
+
+  /* SUBGROUP LOOKUP */
+  .sg-result-wrap { margin-top: 1.25rem; display: none; animation: fadeIn 0.35s ease; }
+  .sg-result-wrap.show { display: block; }
+  .sg-header { background: linear-gradient(135deg, var(--navy), var(--navy-light)); border-radius: 12px 12px 0 0; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .sg-title { font-family: 'Cinzel', serif; color: #fff; font-size: 1rem; font-weight: 600; }
+  .sg-stats { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .sg-stat-pill { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 3px 10px; text-align: center; }
+  .sg-stat-num { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 600; color: var(--gold-light); }
+  .sg-stat-lbl { font-size: 0.6rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; }
+  .sg-table-wrap { overflow-x: auto; border-radius: 0 0 12px 12px; border: 1px solid rgba(201,168,76,0.2); border-top: none; background: #fff; }
+  .sg-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; min-width: 520px; }
+  .sg-table thead th { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-light); padding: 0.55rem 0.7rem; border-bottom: 1px solid rgba(201,168,76,0.2); background: #fafafa; text-align: center; white-space: nowrap; }
+  .sg-table thead th.name-col { text-align: left; }
+  .sg-table tbody tr { transition: background 0.15s; }
+  .sg-table tbody tr:hover td { background: rgba(201,168,76,0.05); }
+  .sg-table tbody tr:last-child td { border-bottom: none; }
+  .sg-table td { padding: 0.55rem 0.7rem; border-bottom: 1px solid rgba(0,0,0,0.04); text-align: center; color: var(--text-dark); vertical-align: middle; }
+  .sg-table td.name-col { text-align: left; }
+  .sg-rank-cell { font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 600; color: var(--text-mid); }
+  .sg-name { font-weight: 600; color: var(--navy); font-size: 0.85rem; }
+  .sg-place { font-size: 0.68rem; color: var(--text-light); margin-top: 1px; }
+  .score-chip { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 22px; border-radius: 4px; font-family: 'Cinzel', serif; font-size: 0.75rem; font-weight: 600; }
+  .chip-5 { background: rgba(201,168,76,0.15); color: #8B6914; border: 1px solid rgba(201,168,76,0.4); }
+  .chip-4 { background: rgba(55,138,221,0.1); color: #1a5496; border: 1px solid rgba(55,138,221,0.25); }
+  .chip-3 { background: rgba(150,150,150,0.1); color: #555; border: 1px solid rgba(150,150,150,0.2); }
+  .chip-2 { background: rgba(220,80,80,0.08); color: #c0392b; border: 1px solid rgba(220,80,80,0.2); }
+  .chip-1 { background: rgba(220,80,80,0.12); color: #c0392b; border: 1px solid rgba(220,80,80,0.25); }
+  .chip-0 { background: rgba(200,200,200,0.15); color: #aaa; border: 1px solid rgba(200,200,200,0.3); }
+  .total-chip { font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 700; padding: 2px 7px; border-radius: 5px; }
+  .total-perfect { background: linear-gradient(135deg,#c9a84c,#e8c97a); color: #fff; }
+  .total-high { background: rgba(55,138,221,0.15); color: #0d47a1; }
+  .total-mid { background: rgba(150,150,150,0.1); color: #444; }
+  .total-low { background: rgba(220,80,80,0.08); color: #c0392b; }
+  .medal-icon { font-size: 1rem; }
+  .sg-not-found { margin-top: 1rem; text-align: center; padding: 1rem; background: rgba(200,0,0,0.05); border-radius: 8px; border: 1px solid rgba(200,0,0,0.12); color: #a00; font-size: 0.9rem; display: none; }
+  .sg-not-found.show { display: block; }
+  .overall-rank { font-size: 0.7rem; color: var(--text-light); }
+
 </style>
 </head>
 <body>
@@ -194,14 +233,42 @@
     </div>
   </div>
 
-  <!-- AGE GROUP RANKINGS -->
+  <!-- SUBGROUP LOOKUP -->
   <div class="card">
-    <div class="card-header" id="age-toggle" onclick="toggleCard('age')">
-      <h2>🎓 Rankings by Age Group</h2>
-      <div class="toggle-btn" id="age-btn">+</div>
+    <div class="card-header open" id="sg-toggle" onclick="toggleCard('sg')">
+      <h2>👥 Sub Group Results</h2>
+      <div class="toggle-btn open" id="sg-btn">+</div>
     </div>
-    <div class="card-body" id="age-body">
-      <div id="age-groups-container"></div>
+    <div class="card-body open" id="sg-body">
+      <div style="max-width:300px;margin:0 auto 1rem;display:flex;gap:0.6rem;">
+        <input type="number" class="lookup-input" id="sg-input" placeholder="Enter group number" min="1" max="200" style="text-align:center;font-family:'Cinzel',serif;font-size:0.95rem;">
+        <button class="lookup-btn" onclick="lookupSubgroup()">View</button>
+      </div>
+      <div class="sg-not-found" id="sg-not-found">No group found with that number. Please check and try again.</div>
+      <div class="sg-result-wrap" id="sg-result-wrap">
+        <div class="sg-header">
+          <div>
+            <div class="sg-title" id="sg-title"></div>
+            <div style="font-size:0.7rem;color:rgba(255,255,255,0.6);margin-top:2px" id="sg-subtitle"></div>
+          </div>
+          <div class="sg-stats" id="sg-stats"></div>
+        </div>
+        <div class="sg-table-wrap">
+          <table class="sg-table">
+            <thead>
+              <tr>
+                <th style="width:40px">#</th>
+                <th class="name-col">Name</th>
+                <th>E1</th><th>E2</th><th>E3</th><th>E4</th><th>E5</th>
+                <th>Total</th>
+                <th>Time</th>
+                <th>O.Rank</th>
+              </tr>
+            </thead>
+            <tbody id="sg-tbody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -276,98 +343,80 @@ function toggleCard(id) {
   header.classList.toggle('open');
 }
 
-// Age group rankings
-const AGE_DATA = (function() {
-  const bins = [[0,25,'Youth (15–25)','1D9E75','E1F5EE','085041'],
-                [26,40,'Young Adult (26–40)','534AB7','EEEDFE','26215C'],
-                [41,55,'Middle Adult (41–55)','378ADD','E6F1FB','042C53'],
-                [56,999,'Senior (56+)','BA7517','FAEEDA','412402']];
-  const MEDALS = ['🥇','🥈','🥉'];
-  return bins.map(([lo,hi,label,dark,light,text]) => {
-    const members = PARTICIPANTS.filter(p => p.age >= lo && p.age <= hi);
-    const sorted  = [...members].sort((a,b) => b.total_score-a.total_score || a.total_mins-b.total_mins);
-    const fullMks = members.filter(p => p.total_score===25).length;
-    const avgScore= members.length ? (members.reduce((s,p)=>s+p.total_score,0)/members.length).toFixed(1) : 0;
-    return {label,dark,light,text,count:members.length,fullMks,avgScore,top3:sorted.slice(0,3),MEDALS};
-  });
-})();
+// Subgroup lookup
+const MEDALS_SG = ['🥇','🥈','🥉'];
 
-function renderAgeGroups() {
-  const container = document.getElementById('age-groups-container');
-  AGE_DATA.forEach(g => {
-    const card = document.createElement('div');
-    card.className = 'age-grp-card';
-    card.style.cssText = `margin-bottom:1rem;border-radius:12px;overflow:hidden;border:1px solid #${g.dark}33`;
-    card.innerHTML = `
-      <div style="background:#${g.dark};padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
-        <div>
-          <div style="font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;color:#fff">${g.label}</div>
-          <div style="font-size:.7rem;color:rgba(255,255,255,0.7);margin-top:2px">${g.count.toLocaleString()} participants &nbsp;·&nbsp; ${g.fullMks} perfect scores &nbsp;·&nbsp; avg ${g.avgScore}/25</div>
-        </div>
-        <div style="display:flex;gap:.5rem">
-          <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:4px 10px;text-align:center">
-            <div style="font-size:1rem;font-weight:600;color:#fff">${g.avgScore}</div>
-            <div style="font-size:.6rem;color:rgba(255,255,255,.65)">avg score</div>
-          </div>
-        </div>
-      </div>
-      <div style="background:#${g.light};padding:.75rem 1rem">
-        ${g.top3.map((p,i) => `
-          <div style="display:flex;align-items:center;gap:.75rem;padding:.45rem 0;${i<g.top3.length-1?'border-bottom:1px solid #'+g.dark+'22':''}">
-            <div style="font-size:1.3rem;width:28px;text-align:center;flex-shrink:0">${g.MEDALS[i]}</div>
-            <div style="flex:1;min-width:0">
-              <div style="font-family:'Cinzel',serif;font-size:.78rem;font-weight:600;color:#${g.text};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
-              <div style="font-size:.66rem;color:#${g.dark};opacity:.85">${p.place} &nbsp;·&nbsp; Overall #${p.rank}</div>
-            </div>
-            <div style="text-align:right;flex-shrink:0">
-              <div style="font-family:'Cinzel',serif;font-size:.95rem;font-weight:700;color:#${g.dark}">${p.total_score}/25</div>
-              <div style="font-size:.63rem;color:#${g.text};opacity:.75">${p.total_mins.toFixed(1)} mins</div>
-            </div>
-          </div>
-        `).join('')}
-      </div>`;
-    container.appendChild(card);
-  });
+function chipClass(score) {
+  return score === 5 ? 'chip-5' : score === 4 ? 'chip-4' : score === 3 ? 'chip-3' :
+         score === 2 ? 'chip-2' : score === 1 ? 'chip-1' : 'chip-0';
 }
-renderAgeGroups();
+function totalChipClass(total) {
+  return total === 25 ? 'total-perfect' : total >= 20 ? 'total-high' : total >= 12 ? 'total-mid' : 'total-low';
+}
 
-// Lookup
-function lookupResult() {
-  const raw = document.getElementById('mobile-input').value.trim();
-  const nf  = document.getElementById('not-found');
-  const rc  = document.getElementById('result-card');
-  nf.classList.remove('show'); rc.classList.remove('show');
+function lookupSubgroup() {
+  const raw = document.getElementById('sg-input').value.trim();
+  const nf  = document.getElementById('sg-not-found');
+  const rw  = document.getElementById('sg-result-wrap');
+  nf.classList.remove('show'); rw.classList.remove('show');
   if (!raw) return;
-  const p = lookup[raw];
-  if (!p) { nf.classList.add('show'); return; }
 
-  const initials = p.name.trim().split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
-  document.getElementById('res-avatar').textContent = initials;
-  document.getElementById('res-name').textContent   = p.name;
-  document.getElementById('res-meta').textContent   = [p.gender, p.place, p.subgroup?'Group '+p.subgroup:''].filter(Boolean).join(' · ');
-  document.getElementById('res-rank').textContent   = '#'+p.rank;
+  const grpNum = parseInt(raw);
+  const members = PARTICIPANTS.filter(p => p.subgroup === grpNum);
 
-  const exams = [
-    ['Exam 1', p.e1_score], ['Exam 2', p.e2_score],
-    ['Exam 3', p.e3_score], ['Exam 4', p.e4_score],
-    ['Exam 5', p.e5_score||0]
-  ];
-  const grid = document.getElementById('scores-grid');
-  grid.innerHTML = '';
-  exams.forEach(([label,score]) => {
-    const absent = score === undefined || score === null;
-    const cls = score===5?'perfect':score===0&&!absent?'zero':'';
-    grid.innerHTML += `<div class="score-cell ${cls}">
-      <div class="score-label">${label}</div>
-      <div class="score-val">${score}/5${score===5?' ⭐':''}</div>
-    </div>`;
+  if (members.length === 0) { nf.classList.add('show'); return; }
+
+  // Sort: total_score desc, total_mins asc
+  members.sort((a,b) => b.total_score - a.total_score || a.total_mins - b.total_mins);
+
+  // Stats
+  const perfect  = members.filter(p => p.total_score === 25).length;
+  const avgScore = (members.reduce((s,p) => s + p.total_score, 0) / members.length).toFixed(1);
+  const totalFull = [1,2,3,4,5].reduce((s,ex) => s + members.filter(p => p[`e${ex}_score`]===5).length, 0);
+
+  document.getElementById('sg-title').textContent = `Group ${grpNum}`;
+  document.getElementById('sg-subtitle').textContent = `${members.length} members · avg ${avgScore}/25 · ${perfect} perfect scorer${perfect!==1?'s':''}`;
+
+  document.getElementById('sg-stats').innerHTML = [
+    ['Members', members.length],
+    ['Perfect 25/25', perfect],
+    ['Avg Score', avgScore+'/25'],
+    ['Total ★', totalFull],
+  ].map(([lbl,val]) => `
+    <div class="sg-stat-pill">
+      <div class="sg-stat-num">${val}</div>
+      <div class="sg-stat-lbl">${lbl}</div>
+    </div>`).join('');
+
+  const tbody = document.getElementById('sg-tbody');
+  tbody.innerHTML = '';
+  members.forEach((p, i) => {
+    const medal = i < 3 ? `<span class="medal-icon">${MEDALS_SG[i]}</span> ` : '';
+    const tcls  = totalChipClass(p.total_score);
+    const mins  = p.total_mins < 9990 ? p.total_mins.toFixed(1) : '—';
+    tbody.innerHTML += `<tr>
+      <td class="sg-rank-cell">${medal}${i+1}</td>
+      <td class="name-col">
+        <div class="sg-name">${p.name}</div>
+        <div class="sg-place">${p.place || ''}${p.gender ? ' · '+p.gender : ''}</div>
+      </td>
+      <td><span class="score-chip ${chipClass(p.e1_score)}">${p.e1_score}</span></td>
+      <td><span class="score-chip ${chipClass(p.e2_score)}">${p.e2_score}</span></td>
+      <td><span class="score-chip ${chipClass(p.e3_score)}">${p.e3_score}</span></td>
+      <td><span class="score-chip ${chipClass(p.e4_score)}">${p.e4_score}</span></td>
+      <td><span class="score-chip ${chipClass(p.e5_score||0)}">${p.e5_score||0}</span></td>
+      <td><span class="total-chip ${tcls}">${p.total_score}/25</span></td>
+      <td style="font-size:0.75rem;color:var(--text-light)">${mins}</td>
+      <td class="overall-rank">#${p.rank}</td>
+    </tr>`;
   });
 
-  const stars = '⭐'.repeat(Math.min(Math.round(p.total_score/5),5));
-  document.getElementById('star-row').textContent   = stars;
-  document.getElementById('res-total').textContent  = p.total_score+'/25';
-  rc.classList.add('show');
+  rw.classList.add('show');
 }
+
+document.getElementById('sg-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') lookupSubgroup();
+});
 
 document.getElementById('mobile-input').addEventListener('keydown', e => {
   if (e.key==='Enter') lookupResult();
