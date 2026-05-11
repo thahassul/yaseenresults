@@ -390,7 +390,7 @@ function lookupSubgroup() {
 
   const tbody = document.getElementById('sg-tbody');
   tbody.innerHTML = '';
-  members.forEach((p, i) => {
+  members.slice(0, 5).forEach((p, i) => {
     const medal = i < 3 ? `<span class="medal-icon">${MEDALS_SG[i]}</span> ` : '';
     const tcls  = totalChipClass(p.total_score);
     const mins  = p.total_mins < 9990 ? p.total_mins.toFixed(1) : '—';
