@@ -259,7 +259,7 @@
               <tr>
                 <th style="width:40px">#</th>
                 <th class="name-col">Name</th>
-                <th>E1</th><th>E2</th><th>E3</th><th>E4</th><th>E5</th>
+                <th>E5</th><th>E4</th><th>E3</th><th>E2</th><th>E1</th>
                 <th>Total</th>
                 <th>Time</th>
                 <th>O.Rank</th>
@@ -400,11 +400,11 @@ function lookupSubgroup() {
         <div class="sg-name">${p.name}</div>
         <div class="sg-place">${p.place || ''}${p.gender ? ' · '+p.gender : ''}</div>
       </td>
-      <td><span class="score-chip ${chipClass(p.e1_score)}">${p.e1_score}</span></td>
-      <td><span class="score-chip ${chipClass(p.e2_score)}">${p.e2_score}</span></td>
-      <td><span class="score-chip ${chipClass(p.e3_score)}">${p.e3_score}</span></td>
-      <td><span class="score-chip ${chipClass(p.e4_score)}">${p.e4_score}</span></td>
       <td><span class="score-chip ${chipClass(p.e5_score||0)}">${p.e5_score||0}</span></td>
+      <td><span class="score-chip ${chipClass(p.e4_score)}">${p.e4_score}</span></td>
+      <td><span class="score-chip ${chipClass(p.e3_score)}">${p.e3_score}</span></td>
+      <td><span class="score-chip ${chipClass(p.e2_score)}">${p.e2_score}</span></td>
+      <td><span class="score-chip ${chipClass(p.e1_score)}">${p.e1_score}</span></td>
       <td><span class="total-chip ${tcls}">${p.total_score}/25</span></td>
       <td style="font-size:0.75rem;color:var(--text-light)">${mins}</td>
       <td class="overall-rank">#${p.rank}</td>
