@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sur Yaseen Quiz Series — Results</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+Malayalam:wght@400;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy:#0a1628;--navy-mid:#112040;--navy-light:#1a3060;
@@ -165,6 +165,20 @@
   .sg-not-found.show { display: block; }
   .overall-rank { font-size: 0.7rem; color: var(--text-light); }
 
+
+  /* ANSWER KEY */
+  .answer-key-wrap { padding: 0.25rem 0; }
+  .answer-item { margin-bottom: 1rem; padding: 1rem; border-radius: 10px; background: var(--cream); border: 1px solid rgba(201,168,76,0.15); }
+  .answer-item:last-child { margin-bottom: 0; }
+  .answer-q { font-family: 'Crimson Pro', serif; font-size: 0.95rem; color: var(--navy); font-weight: 600; line-height: 1.6; margin-bottom: 0.6rem; direction: rtl; text-align: right; }
+  .answer-q-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--navy); color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.7rem; font-weight: 700; margin-left: 0.5rem; flex-shrink: 0; }
+  .answer-a { display: flex; align-items: flex-start; gap: 0.6rem; background: linear-gradient(135deg, var(--navy), var(--navy-light)); border-radius: 8px; padding: 0.65rem 0.9rem; }
+  .answer-a-badge { background: var(--gold); color: var(--navy); font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: 700; border-radius: 4px; padding: 2px 7px; flex-shrink: 0; letter-spacing: 0.05em; margin-top: 2px; }
+  .answer-a-text { font-family: 'Crimson Pro', serif; font-size: 0.95rem; color: #fff; line-height: 1.6; direction: rtl; text-align: right; flex: 1; }
+  .answer-arabic { font-size: 1.15rem; font-family: 'Amiri', 'Traditional Arabic', serif; line-height: 1.8; }
+  .exam-label { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; text-align: center; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+  .exam-label::before, .exam-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent); }
+
 </style>
 </head>
 <body>
@@ -230,6 +244,87 @@
         </thead>
         <tbody id="groups-tbody"></tbody>
       </table>
+    </div>
+  </div>
+
+
+  <!-- ANSWER KEY -->
+  <div class="card">
+    <div class="card-header" id="ak-toggle" onclick="toggleCard('ak')">
+      <h2>📋 Exam 5 — Answer Key</h2>
+      <div class="toggle-btn" id="ak-btn">+</div>
+    </div>
+    <div class="card-body" id="ak-body">
+      <div class="answer-key-wrap">
+
+        <div class="exam-label">Sur Yaseen — Exam 5 &nbsp;|&nbsp; 06 May 2026</div>
+
+        <div class="answer-item">
+          <div class="answer-q">
+            <span style="display:flex;align-items:flex-start;gap:0.4rem;justify-content:flex-end;flex-direction:row-reverse">
+              <span class="answer-q-num">1</span>
+              <span>അടിമകളോട് അങ്ങേഅറ്റം കാരുണ്യം കാണിക്കുന്നവൻ എന്ന ആശയം വരുന്ന അല്ലാഹുവിന്റെ നാമം ഏത്?</span>
+            </span>
+          </div>
+          <div class="answer-a">
+            <span class="answer-a-badge">A</span>
+            <span class="answer-a-text answer-arabic">الرَّحِيم</span>
+          </div>
+        </div>
+
+        <div class="answer-item">
+          <div class="answer-q">
+            <span style="display:flex;align-items:flex-start;gap:0.4rem;justify-content:flex-end;flex-direction:row-reverse">
+              <span class="answer-q-num">2</span>
+              <span>ഒരു വഴിക്ക് 'സ്വിറാത്ത്' എന്ന് പറയണമെങ്കിൽ അത് എങ്ങനെയുള്ള വഴി ആയിരിക്കണം?</span>
+            </span>
+          </div>
+          <div class="answer-a">
+            <span class="answer-a-badge">A</span>
+            <span class="answer-a-text">വിശാലമായ വഴിയായിരിക്കണം</span>
+          </div>
+        </div>
+
+        <div class="answer-item">
+          <div class="answer-q">
+            <span style="display:flex;align-items:flex-start;gap:0.4rem;justify-content:flex-end;flex-direction:row-reverse">
+              <span class="answer-q-num">3</span>
+              <span>തിന്മകൾ കാരണവും ഒരാൾക്ക് സത്യം മനസ്സിലാകാതെ വരും എന്നതിന് പണ്ഡിതന്മാർ തെളിവുപിടിച്ച ആയത്ത് ഏത്?</span>
+            </span>
+          </div>
+          <div class="answer-a">
+            <span class="answer-a-badge">A</span>
+            <span class="answer-a-text answer-arabic">كَلَّا ۖ بَلْ ۜ رَانَ عَلَىٰ قُلُوبِهِم مَّا كَانُوا۟ يَكْسِبُونَ</span>
+          </div>
+        </div>
+
+        <div class="answer-item">
+          <div class="answer-q">
+            <span style="display:flex;align-items:flex-start;gap:0.4rem;justify-content:flex-end;flex-direction:row-reverse">
+              <span class="answer-q-num">4</span>
+              <span>എന്താണ് ഇസ്സത്തുൽ ഇംതിനാഅ് കൊണ്ടുദ്ദേശം?</span>
+            </span>
+          </div>
+          <div class="answer-a">
+            <span class="answer-a-badge">A</span>
+            <span class="answer-a-text">അല്ലാഹുവിനൊരു ദോഷം വരുത്താനോ അവൻക്കൊരു ഉപദ്രവമുണ്ടാക്കാനോ ഒരാൾക്കും കഴിയുകയില്ല</span>
+          </div>
+        </div>
+
+        <div class="answer-item">
+          <div class="answer-q">
+            <span style="display:flex;align-items:flex-start;gap:0.4rem;justify-content:flex-end;flex-direction:row-reverse">
+              <span class="answer-q-num">5</span>
+              <span>അല്ലാഹു എവിടെയാണ്?</span>
+            </span>
+          </div>
+          <div class="answer-a">
+            <span class="answer-a-badge">A</span>
+            <span class="answer-a-text">ഉപരിയിൽ</span>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -421,6 +516,48 @@ document.getElementById('sg-input').addEventListener('keydown', e => {
 document.getElementById('mobile-input').addEventListener('keydown', e => {
   if (e.key==='Enter') lookupResult();
 });
+
+// Mobile number lookup
+function lookupResult() {
+  const raw = document.getElementById('mobile-input').value.trim();
+  const nf  = document.getElementById('not-found');
+  const rc  = document.getElementById('result-card');
+  nf.classList.remove('show'); rc.classList.remove('show');
+  if (!raw) return;
+  const p = lookup[raw];
+  if (!p) { nf.classList.add('show'); return; }
+
+  const initials = p.name.trim().split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  document.getElementById('res-avatar').textContent = initials;
+  document.getElementById('res-name').textContent   = p.name;
+  document.getElementById('res-meta').textContent   = [p.gender, p.place, p.subgroup?'Group '+p.subgroup:''].filter(Boolean).join(' · ');
+  document.getElementById('res-rank').textContent   = '#'+p.rank;
+
+  const exams = [
+    ['Exam 1', p.e1_score], ['Exam 2', p.e2_score],
+    ['Exam 3', p.e3_score], ['Exam 4', p.e4_score],
+    ['Exam 5', p.e5_score||0]
+  ];
+  const grid = document.getElementById('scores-grid');
+  grid.innerHTML = '';
+  exams.forEach(([label,score]) => {
+    const cls = score===5?'perfect':score===0?'zero':'';
+    grid.innerHTML += `<div class="score-cell ${cls}">
+      <div class="score-label">${label}</div>
+      <div class="score-val">${score}/5${score===5?' ⭐':''}</div>
+    </div>`;
+  });
+
+  const stars = '⭐'.repeat(Math.min(Math.round(p.total_score/5),5));
+  document.getElementById('star-row').textContent  = stars;
+  document.getElementById('res-total').textContent = p.total_score+'/25';
+  rc.classList.add('show');
+}
+
+document.getElementById('mobile-input').addEventListener('keydown', e => {
+  if (e.key==='Enter') lookupResult();
+});
+
 </script>
 </body>
 </html>
