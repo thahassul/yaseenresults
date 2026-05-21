@@ -179,6 +179,9 @@
   .exam-label { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; text-align: center; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
   .exam-label::before, .exam-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent); }
 
+
+
+
 </style>
 </head>
 <body>
@@ -237,9 +240,7 @@
       <table class="groups-table">
         <thead>
           <tr>
-            <th>Rank</th><th>Group</th><th>Total Full ★</th>
-            <th>E1 ★</th><th>E2 ★</th><th>E3 ★</th><th>E4 ★</th><th>E5 ★</th>
-            <th>Perfect (25/25)</th><th>Avg /25</th>
+            <th>Rank</th><th>Group</th><th>Total Full ★</th><th>Perfect (30/30)</th>
           </tr>
         </thead>
         <tbody id="groups-tbody"></tbody>
@@ -351,13 +352,13 @@
         <div class="sg-table-wrap">
           <table class="sg-table">
             <thead>
-              <tr>
+              <tr id="sg-thead-row">
                 <th style="width:40px">#</th>
                 <th class="name-col">Name</th>
-                <th>E6</th><th>E5</th><th>E4</th><th>E3</th><th>E2</th><th>E1</th>
-                <th>Total</th>
-                <th>Time</th>
-                <th>O.Rank</th>
+                <th>E1–E4</th>
+                <th>E5</th>
+                <th>E6</th>
+                <th>Total /30</th>
               </tr>
             </thead>
             <tbody id="sg-tbody"></tbody>
@@ -422,9 +423,7 @@ function renderGroups() {
       <td><span class="rank-badge ${bc}">${rank}</span></td>
       <td><strong>Group ${grp}</strong></td>
       <td><div class="score-bar-wrap"><div class="score-bar" style="width:${bw}px"></div><span class="score-bar-val">${total}</span></div></td>
-      <td>${e1}</td><td>${e2}</td><td>${e3}</td><td>${e4}</td><td>${e5}</td><td>${e6}</td>
-      <td style="font-weight:600;color:#c9a84c">${perfect}</td>
-      <td>${avg}</td>
+      <td style="font-weight:600;color:#c9a84c;text-align:center">${perfect}</td>
     </tr>`;
   });
 }
@@ -470,12 +469,12 @@ function lookupSubgroup() {
   const totalFull = [1,2,3,4,5,6].reduce((s,ex) => s + members.filter(p => p[`e${ex}_score`]===5).length, 0);
 
   document.getElementById('sg-title').textContent = `Group ${grpNum}`;
-  document.getElementById('sg-subtitle').textContent = `${members.length} members · avg ${avgScore}/25 · ${perfect} perfect scorer${perfect!==1?'s':''}`;
+  document.getElementById('sg-subtitle').textContent = `${members.length} members · avg ${avgScore}/30 · ${perfect} perfect scorer${perfect!==1?'s':''}`;
 
   document.getElementById('sg-stats').innerHTML = [
     ['Members', members.length],
-    ['Perfect 25/25', perfect],
-    ['Avg Score', avgScore+'/25'],
+    ['Perfect 30/30', perfect],
+    ['Avg Score', avgScore+'/30'],
     ['Total ★', totalFull],
   ].map(([lbl,val]) => `
     <div class="sg-stat-pill">
@@ -486,24 +485,20 @@ function lookupSubgroup() {
   const tbody = document.getElementById('sg-tbody');
   tbody.innerHTML = '';
   members.slice(0, 5).forEach((p, i) => {
-    const medal = i < 3 ? `<span class="medal-icon">${MEDALS_SG[i]}</span> ` : '';
-    const tcls  = totalChipClass(p.total_score);
-    const mins  = p.total_mins < 9990 ? p.total_mins.toFixed(1) : '—';
+    const medal    = i < 3 ? `<span class="medal-icon">${MEDALS_SG[i]}</span> ` : '';
+    const tcls     = totalChipClass(p.total_score);
+    const e1to4    = (p.e1_score||0)+(p.e2_score||0)+(p.e3_score||0)+(p.e4_score||0);
+    const e1to4cls = e1to4===20?'total-perfect':e1to4>=16?'total-high':e1to4>=10?'total-mid':'total-low';
     tbody.innerHTML += `<tr>
       <td class="sg-rank-cell">${medal}${i+1}</td>
       <td class="name-col">
         <div class="sg-name">${p.name}</div>
         <div class="sg-place">${p.place || ''}${p.gender ? ' · '+p.gender : ''}</div>
       </td>
-      <td><span class="score-chip ${chipClass(p.e6_score||0)}">${p.e6_score||0}</span></td>
+      <td><span class="total-chip ${e1to4cls}" style="font-size:0.75rem;padding:2px 6px">${e1to4}/20</span></td>
       <td><span class="score-chip ${chipClass(p.e5_score||0)}">${p.e5_score||0}</span></td>
-      <td><span class="score-chip ${chipClass(p.e4_score)}">${p.e4_score}</span></td>
-      <td><span class="score-chip ${chipClass(p.e3_score)}">${p.e3_score}</span></td>
-      <td><span class="score-chip ${chipClass(p.e2_score)}">${p.e2_score}</span></td>
-      <td><span class="score-chip ${chipClass(p.e1_score)}">${p.e1_score}</span></td>
-      <td><span class="total-chip ${tcls}">${p.total_score}/25</span></td>
-      <td style="font-size:0.75rem;color:var(--text-light)">${mins}</td>
-      <td class="overall-rank">#${p.rank}</td>
+      <td><span class="score-chip ${chipClass(p.e6_score||0)}">${p.e6_score||0}</span></td>
+      <td><span class="total-chip ${tcls}">${p.total_score}/30</span></td>
     </tr>`;
   });
 
